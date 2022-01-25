@@ -20,7 +20,6 @@ def solution(participant, completion):
 
 print(solution(["marina", "josipa", "nikola", "vinko", "filipa"] , ["josipa", "filipa", "marina", "nikola"]))
 
-
 ##################다른사람 풀이 
 
 
