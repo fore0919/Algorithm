@@ -7,16 +7,16 @@ def solution(answers):
     answer = []
 
     for i in range(len(answers)):
-        if answers[i] == supo1[i % 5]:
+        if answers[i] == supo1[i % len(supo1)]:
             score[0] += 1
-        if answers[i] == supo2[i % 8]:
+        if answers[i] == supo2[i % len(supo2)]:
             score[1] += 1
-        if answers[i] == supo3[i % 10]:
+        if answers[i] == supo3[i % len(supo3)]:
             score[2] += 1
 
     winner = max(score)
 
-    for i in range(3):
+    for i in range(len(score)):
         if winner == score[i]:
             answer.append(i + 1)
 
