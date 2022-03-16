@@ -164,6 +164,3 @@ print(h_table.read('d'))
 h_table.delete('d')
 
 print(h_table.hash_table)
-
-#####
-#####
