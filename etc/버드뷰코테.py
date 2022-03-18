@@ -16,8 +16,8 @@ if __name__ == '__main__':
 
     with open (TESTDATA) as f:
         result = f.readlines()
-        for i in range(10): # 열 반복
-            time.sleep(0.5) # 0.5초의 간격을 두고 실행 
+        for i in range(100): # 열 반복
+            time.sleep(0.1) # 0.5초의 간격을 두고 실행 
             for j in data: # 행 반복, 아까 선언한 data리스트와 비교 
                 if j in result[i]:
                     print('TRUE, PERSON_INT {}({}), SAME_STR : {}'.format(i, result[i], j))
