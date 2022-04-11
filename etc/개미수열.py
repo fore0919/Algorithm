@@ -29,10 +29,10 @@ def gami2(var): # 다음 수열을 구하는 함수
             num_cnt += 1 # 카운트에 1을 더한다
 
         else: # 수열의 현재 항과 num이 다르면 
-            # next_num.append(num) # 다음 수열에 num과 num_cnt를 넣음 
-            # next_num.append(num_cnt)
-            # num = i 
-            # num_cnt = 1
+            next_num.append(num) # 다음 수열에 num과 num_cnt를 넣음 
+            next_num.append(num_cnt)
+            num = i 
+            num_cnt = 1
 
     next_num.append(num)
     next_num.append(num_cnt)
