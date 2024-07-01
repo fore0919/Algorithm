@@ -1,4 +1,4 @@
-**Coding Test**
-**Algorithm**
-**Data Structure**
+### Coding Test Practice
+ - **Algorithm**
+ - **Data Structure**
 
