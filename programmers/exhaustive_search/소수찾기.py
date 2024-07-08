@@ -1,8 +1,13 @@
+"""
+https://school.programmers.co.kr/learn/courses/30/lessons/42839
+"""
+
 import math
 from itertools import permutations
 
 
 def solution(numbers):
+
     def is_prime(n):
         if n == 1 or n == 0:
             return False
@@ -12,21 +17,15 @@ def solution(numbers):
         return True
 
     result = []
-    numbers = list(numbers)
-    combination = set(map("".join, permutations(numbers)))
-    _list = list(combination) + numbers
-    int_list = list(set(map(lambda x: int(x), _list)))
-
-    for num in int_list:
-        if is_prime(num):
-            result.append(num)
-
-    return len(set(result))
-
-    temp = []
     for i in range(1, len(numbers) + 1):
-        temp += list(permutations(numbers, i))
+        result += list(permutations(numbers, i))
 
-    answer = [int("".join(i)) for i in temp]
-    answer = [i for i in set(answer) if is_prime(i) == True]
+    result = [int("".join(i)) for i in result]
+    answer = [num for num in set(result) if is_prime(num)]
+
     return len(answer)
+
+
+numbers = "17"  # return : 3
+numbers = "011"  # return : 2
+print(solution(numbers))
