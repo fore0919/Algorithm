@@ -9,7 +9,6 @@ def solution(word):
     temp = [5**i for i in range(len(dic))]
     for i in range(len(word) - 1, -1, -1):
         idx = dic.index(word[i])
-        print(idx)
         for j in range(5 - i):
             answer += temp[j] * idx
         answer += 1
