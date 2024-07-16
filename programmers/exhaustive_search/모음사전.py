@@ -45,5 +45,17 @@ word3 = "EIO"
 # result: 1189
 
 print(solution1(word2))
-print(solution(word1))
+print(solution(word3))
 print(solution2(word3))
+
+
+def solution(word):
+    answer = 0
+    arr = ["A", "E", "I", "O", "U"]
+    num = [781, 156, 31, 6, 1]
+    for i in range(len(word)):
+        answer += arr.index(word[i]) * num[i] + 1
+    return answer
+
+
+print(solution(word3))
