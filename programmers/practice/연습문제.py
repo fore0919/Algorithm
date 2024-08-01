@@ -118,3 +118,106 @@ arr = [2, 6, 8, 14]
 # result: 168
 arr = [1, 2, 3]
 # result: 6
+
+"""
+https://school.programmers.co.kr/learn/courses/30/lessons/138476
+"""
+
+from collections import Counter
+
+
+def solution(k, tangerine):
+    answer = 0
+    counter = Counter(tangerine)
+    sort = sorted(counter.items(), key=lambda x: x[1], reverse=True)
+    for i, j in sort:
+        k -= j
+        answer += 1
+        if k <= 0:
+            break
+    return answer
+
+
+k = 6
+tangerine = [1, 3, 2, 5, 4, 5, 2, 3]
+k = 4
+tangerine = [1, 3, 2, 5, 4, 5, 2, 3]
+k = 2
+tangerine = [1, 1, 1, 1, 2, 2, 2, 3]
+
+
+"""
+https://school.programmers.co.kr/learn/courses/30/lessons/131701
+"""
+
+
+def solution(elements):
+    answer = set()
+    length = len(elements)
+    elements = elements * 2
+
+    for i in range(length):
+        for j in range(length):
+            answer.add(sum(elements[j : j + i + 1]))
+    return len(answer)
+
+
+elements = [7, 9, 1, 1, 4]
+# result : 18
+
+
+"""
+https://school.programmers.co.kr/learn/courses/30/lessons/131127
+"""
+
+
+def solution(want, number, discount):
+    answer = 0
+    for i in range(len(discount)):
+        temp = discount[i : i + 10]
+        cnt = []
+        for j in range(len(want)):
+            if temp.count(want[j]) >= number[j]:
+                cnt.append(True)
+        if len(cnt) == len(want):
+            answer += 1
+    return answer
+
+
+from collections import Counter
+
+
+def solution2(want, number, discount):
+    answer = 0
+    check = {}
+    for w, n in zip(want, number):
+        check[w] = n
+
+    for i in range(len(discount) - 9):
+        c = Counter(discount[i : i + 10])
+        print(c)
+        if c == check:
+            answer += 1
+
+    return answer
+
+
+want = ["banana", "apple", "rice", "pork", "pot"]
+number = [3, 2, 2, 2, 1]
+discount = [
+    "chicken",
+    "apple",
+    "apple",
+    "banana",
+    "rice",
+    "apple",
+    "pork",
+    "banana",
+    "pork",
+    "rice",
+    "pot",
+    "banana",
+    "apple",
+    "banana",
+]
+# result : 3
