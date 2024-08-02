@@ -221,3 +221,136 @@ discount = [
     "banana",
 ]
 # result : 3
+
+"""
+https://school.programmers.co.kr/learn/courses/30/lessons/154539
+"""
+
+
+def solution(numbers):
+    stack = []
+    answer = [-1] * len(numbers)
+    for i in range(len(numbers)):
+        while stack and numbers[stack[-1]] < numbers[i]:
+            answer[stack.pop()] = numbers[i]
+        stack.append(i)
+    return answer
+
+
+numbers = [2, 3, 3, 5]
+# result: [3, 5, 5, -1]
+numbers = [9, 1, 5, 3, 6, 2]
+# result: [-1, 5, 6, 6, -1, -1]
+
+"""
+https://school.programmers.co.kr/learn/courses/30/lessons/132265
+"""
+
+
+def solution(topping):
+    answer = 0
+    counter = Counter(topping)
+    set_dic = set()
+    for i in topping:
+        counter[i] -= 1
+        set_dic.add(i)
+        if counter[i] == 0:
+            counter.pop(i)
+        if len(counter) == len(set_dic):
+            answer += 1
+    return answer
+
+
+topping = [1, 2, 1, 3, 1, 4, 1, 2]
+# result: 2
+topping = [1, 2, 3, 1, 4]
+# result: 0
+
+"""
+https://school.programmers.co.kr/learn/courses/30/lessons/131704
+"""
+
+
+def solution(order):
+    stack = []
+    length = len(order)
+    idx = 0
+    num = 0
+    while idx < length:
+        if order[idx] > num:
+            num += 1
+            stack.append(num)
+        elif order[idx] == stack[-1]:
+            stack.pop()
+            idx += 1
+        else:
+            return idx
+
+    return idx
+
+
+order = [4, 3, 1, 2, 5]
+# result: 2
+order = [5, 4, 3, 2, 1]
+# result: 5
+
+"""
+https://school.programmers.co.kr/learn/courses/30/lessons/12913
+"""
+
+
+def solution(land):
+    for i in range(1, len(land)):
+        for j in range(len(land[0])):
+            land[i][j] += max(land[i - 1][:j] + land[i - 1][j + 1 :])
+    return max(land[-1])
+
+
+land = [[1, 2, 3, 5], [5, 6, 7, 8], [4, 3, 2, 1]]
+# answer: 16
+
+"""
+https://school.programmers.co.kr/learn/courses/30/lessons/154538
+"""
+
+
+def solution(x, y, n):
+    answer = 0
+    dp = set()
+    dp.add(x)
+    while dp:
+        if y in dp:
+            return answer
+        else:
+            result = set()
+            for i in dp:
+                if i + n <= y:
+                    result.add(i + n)
+                if i * 2 <= y:
+                    result.add(i * 2)
+                if i * 3 <= y:
+                    result.add(i * 3)
+            dp = result
+            answer += 1
+    return -1
+
+
+x = 10
+y = 40
+n = 5
+
+"""
+https://school.programmers.co.kr/learn/courses/30/lessons/12949
+"""
+
+
+def solution(arr1, arr2):
+    return [
+        [sum(i * j for i, j in zip(col, row)) for col in zip(*arr2)]
+        for row in arr1
+    ]
+
+
+arr1 = [[1, 4], [3, 2], [4, 1]]
+arr2 = [[3, 3], [3, 3]]
+# return :	[[15, 15], [15, 15], [15, 15]]
