@@ -354,3 +354,42 @@ def solution(arr1, arr2):
 arr1 = [[1, 4], [3, 2], [4, 1]]
 arr2 = [[3, 3], [3, 3]]
 # return :	[[15, 15], [15, 15], [15, 15]]
+
+"""
+https://school.programmers.co.kr/learn/courses/30/lessons/12900
+"""
+
+
+def solution(n):
+    dp = [0 for i in range(n)]
+    dp[0], dp[1] = 1, 2
+    for i in range(2, n):
+        dp[i] = (dp[i - 1] + dp[i - 2]) % 1000000007
+    return dp[n - 1]
+
+
+n = 4
+result = 5
+
+"""
+https://school.programmers.co.kr/learn/courses/30/lessons/12936
+"""
+import math
+
+
+def solution(n, k):
+    arr = [i for i in range(1, n + 1)]
+    answer = []
+
+    while arr:
+        a = (k - 1) // math.factorial(n - 1)
+        answer.append(arr.pop(a))
+
+        k = k % math.factorial(n - 1)
+        n -= 1
+
+    return answer
+
+
+n = 3
+k = 5  # result : [3,1,2]
