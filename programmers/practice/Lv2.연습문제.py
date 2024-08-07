@@ -393,3 +393,85 @@ def solution(n, k):
 
 n = 3
 k = 5  # result : [3,1,2]
+
+"""
+https://school.programmers.co.kr/learn/courses/30/lessons/178870
+"""
+
+
+def solution(sequence, k):
+    l = r = 0
+    answer = [0, len(sequence)]
+    sum = sequence[0]
+
+    while True:
+        if sum < k:
+            r += 1
+            if r == len(sequence):
+                break
+            sum += sequence[r]
+        else:
+            if sum == k:
+                if r - l < answer[1] - answer[0]:
+                    answer = [l, r]
+            sum -= sequence[l]
+            l += 1
+    return answer
+
+
+sequence = [1, 2, 3, 4, 5]
+k = 7
+# result: [2, 3]
+
+"""
+https://school.programmers.co.kr/learn/courses/30/lessons/155651
+"""
+
+from heapq import heappop, heappush
+
+
+def solution(book_time):
+    answer = 1
+    book_time_ref = [
+        (int(s[:2]) * 60 + int(s[3:]), int(e[:2]) * 60 + int(e[3:]))
+        for s, e in book_time
+    ]
+    book_time_ref.sort()
+    heap = []
+
+    for s, e in book_time_ref:
+        if not heap:
+            heappush(heap, e + 10)
+            continue
+        if heap[0] <= s:
+            heappop(heap)
+        else:
+            answer += 1
+        heappush(heap, e + 10)
+    return answer
+
+
+book_time = [
+    ["15:00", "17:00"],
+    ["16:40", "18:20"],
+    ["14:20", "15:20"],
+    ["14:10", "19:20"],
+    ["18:20", "21:20"],
+]
+# result = 3
+
+
+def solution(board):
+    answer = board[0][0]
+    for i in range(1, len(board)):
+        for j in range(1, len(board[i])):
+            if board[i][j] == 1:
+                board[i][j] = 1 + min(
+                    board[i - 1][j - 1], board[i - 1][j], board[i][j - 1]
+                )
+                answer = max(answer, board[i][j])
+    return answer**2
+
+
+board = [[0, 1, 1, 1], [1, 1, 1, 1], [1, 1, 1, 1], [0, 0, 1, 0]]
+# answer: 9
