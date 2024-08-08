@@ -475,3 +475,70 @@ def solution(board):
 
 board = [[0, 1, 1, 1], [1, 1, 1, 1], [1, 1, 1, 1], [0, 0, 1, 0]]
 # answer: 9
+
+"""
+https://school.programmers.co.kr/learn/courses/30/lessons/12946
+"""
+
+
+def solution(n):
+    answer = []
+
+    def hanoi(x, start, mid, end):
+        nonlocal answer
+        if x == 1:
+            answer.append([start, end])
+            return
+        hanoi(x - 1, start, end, mid)
+        answer.append([start, end])
+        hanoi(x - 1, mid, start, end)
+
+    hanoi(n, 1, 2, 3)
+    return answer
+
+
+n = 2
+# result :[ [1,2], [1,3], [2,3] ]
+
+"""
+https://school.programmers.co.kr/learn/courses/30/lessons/12899
+"""
+
+
+def solution(n):
+    answer = ""
+    temp = ["1", "2", "4"]
+    while n > 0:
+        n = n - 1
+        answer = temp[n % 3] + answer
+        n //= 3
+    return answer
+
+
+n = 4
+# result = 11
+
+"""
+https://school.programmers.co.kr/learn/courses/30/lessons/152996
+"""
+
+
+def solution(weights):
+    answer = 0
+    counter = Counter(weights)
+    for k, v in counter.items():
+        if v >= 2:
+            answer += v * (v - 1) // 2
+    weights = set(weights)
+    for w in weights:
+        if w * (4 / 2) in weights:
+            answer += counter[w * (4 / 2)] * counter[w]
+        if w * (3 / 2) in weights:
+            answer += counter[w * (3 / 2)] * counter[w]
+        if w * (4 / 3) in weights:
+            answer += counter[w * (4 / 3)] * counter[w]
+    return answer
+
+
+weights = [100, 180, 360, 100, 270]
+# result: 4
