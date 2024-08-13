@@ -195,3 +195,40 @@ def solution(msg):
 
 msg = "KAKAO"
 # answer: [11, 1, 27, 15]
+
+"""
+https://school.programmers.co.kr/learn/courses/30/lessons/17686
+"""
+
+
+def solution(files):
+    answer = []
+    for i in range(len(files)):
+        head, number, tail = "", "", ""
+        number_check = False
+        for j in range(len(files[i])):
+            if files[i][j].isdigit():
+                number += files[i][j]
+                number_check = True
+            elif not number_check:
+                head += files[i][j]
+            else:
+                tail += files[i][j:]
+                break
+
+        answer.append((head, number, tail))
+
+    answer.sort(key=lambda x: (x[0].upper(), int(x[1])))
+
+    return ["".join(t) for t in answer]
+
+
+files = [
+    "img12.png",
+    "img10.png",
+    "img02.png",
+    "img1.png",
+    "IMG01.GIF",
+    "img2.JPG",
+]
+# answer = ["img1.png", "IMG01.GIF", "img02.png", "img2.JPG", "img10.png", "img12.png"]
