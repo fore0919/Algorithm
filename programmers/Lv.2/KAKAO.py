@@ -232,3 +232,180 @@ files = [
     "img2.JPG",
 ]
 # answer = ["img1.png", "IMG01.GIF", "img02.png", "img2.JPG", "img10.png", "img12.png"]
+
+"""
+https://school.programmers.co.kr/learn/courses/30/lessons/42888
+"""
+
+
+def solution(record):
+    answer = []
+    name = None
+    dic = {}
+    for r in record:
+        array = r.split(" ")
+        if array[0] in ["Enter", "Change"]:
+            dic[array[1]] = array[2]
+
+    for i in record:
+        name = dic[i.split(" ")[1]]
+        if i.split(" ")[0] == "Enter":
+            answer.append(f"{name}님이 들어왔습니다.")
+        elif i.split(" ")[0] == "Leave":
+            answer.append(f"{name}님이 나갔습니다.")
+    return answer
+
+
+record = [
+    "Enter uid1234 Muzi",
+    "Enter uid4567 Prodo",
+    "Leave uid1234",
+    "Enter uid1234 Prodo",
+    "Change uid4567 Ryan",
+]
+# result : ["Prodo님이 들어왔습니다.", "Ryan님이 들어왔습니다.", "Prodo님이 나갔습니다.", "Prodo님이 들어왔습니다."]
+
+"""
+https://school.programmers.co.kr/learn/courses/30/lessons/118667
+"""
+from collections import deque
+
+
+def solution(queue1, queue2):
+    answer = 0
+    deque1 = deque(queue1)
+    deque2 = deque(queue2)
+    sum1 = sum(deque1)
+    sum2 = sum(deque2)
+    limit = len(deque1) * 3
+
+    while sum1 != sum2:
+        if answer == limit:
+            return -1
+        if sum1 > sum2:
+            current = deque1.popleft()
+            deque2.append(current)
+            sum1 -= current
+            sum2 += current
+        elif sum1 < sum2:
+            current = deque2.popleft()
+            deque1.append(current)
+            sum2 -= current
+            sum1 += current
+        answer += 1
+    return answer
+
+
+queue1 = [3, 2, 7, 2]
+queue2 = [4, 6, 5, 1]
+# result : 2
+
+"""
+https://school.programmers.co.kr/learn/courses/30/lessons/92341
+"""
+import math
+from datetime import datetime
+
+
+def solution(fees, records):
+
+    def parse(time):
+        return datetime.strptime(time, "%H:%M")
+
+    answer = []
+    parking = {}
+    time = {}
+
+    for r in records:
+        record = r.split(" ")
+        if record[2] == "IN":
+            parking[record[1]] = parse(record[0])
+        else:
+            used_time = (parse(record[0]) - parking[record[1]]).seconds
+            time[record[1]] = used_time + time.get(record[1], 0)
+            parking.pop(record[1])
+
+    if parking:
+        for k, v in parking.items():
+            last_time = (parse("23:59") - v).seconds
+            time[k] = last_time + time.get(k, 0)
+
+    array = sorted(time.items())
+    for k, v in array:
+        charge = math.ceil(((v / 60) - fees[0]) / fees[2])
+        fee = fees[1] + (max(charge, 0) * fees[3])
+        answer.append(fee)
+    return answer
+
+
+"""
+https://school.programmers.co.kr/learn/courses/30/lessons/72411
+"""
+from collections import Counter
+from itertools import combinations
+
+
+def solution(orders, course):
+    answer = []
+    for c in course:
+        menus = []
+        for order in orders:
+            menus += combinations(sorted(order), c)
+        counter = Counter(menus).most_common()
+        for k, v in counter:
+            if v > 1 and v == counter[0][1]:
+                answer.append("".join(k))
+    return sorted(answer)
+
+
+"""
+https://school.programmers.co.kr/learn/courses/30/lessons/17683
+"""
+
+from datetime import datetime
+
+
+def solution(m, musicinfos):
+
+    def parse(x):
+        scale = {
+            "C#": "1",
+            "D#": "2",
+            "F#": "3",
+            "G#": "4",
+            "A#": "5",
+            "B#": "6",
+        }
+        for k, v in scale.items():
+            x = x.replace(k, v)
+        return x
+
+    answer = []
+    m = parse(m)
+
+    for music in musicinfos:
+        music = music.split(",")
+        time = datetime.strptime(music[1], "%H:%M") - datetime.strptime(
+            music[0], "%H:%M"
+        )
+        length = time.seconds // 60
+        music[3] = parse(music[3])
+        if length >= len(music[3]):
+            x = (
+                music[3] * (length // len(music[3]))
+                + music[3][: length % len(music[3])]
+            )
+        else:
+            x = music[3][:length]
+
+        if m in x:
+            answer.append([music[2], length])
+
+    if not answer:
+        return "(None)"
+    return sorted(answer, key=lambda x: -x[1])[0][0]
+
+
+m = "ABCDEFG"
+musicinfos = ["12:00,12:14,HELLO,CDEFGAB", "13:00,13:05,WORLD,ABCDEF"]
+# answer : "HELLO"
