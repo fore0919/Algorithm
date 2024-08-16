@@ -72,3 +72,37 @@ def solution(n):
 
 
 n = 5000  # result : 5
+
+"""
+https://school.programmers.co.kr/learn/courses/30/lessons/12978
+"""
+
+import heapq
+
+
+def solution(N, road, K):
+    def dijkstra(distance, temp):
+        heap = []
+        heapq.heappush(heap, [0, 1])
+        while heap:
+            cost, node = heapq.heappop(heap)
+            for c, n in temp[node]:
+                if cost + c < distance[n]:
+                    distance[n] = cost + c
+                    heapq.heappush(heap, [cost + c, n])
+
+    distance = [float("inf")] * (N + 1)
+    distance[1] = 0
+    temp = [[] for _ in range(N + 1)]
+    for r in road:
+        temp[r[0]].append([r[2], r[1]])
+        temp[r[1]].append([r[2], r[0]])
+
+    dijkstra(distance, temp)
+    return len([i for i in distance if i <= K])
+
+
+N = 5
+road = [[1, 2, 1], [2, 3, 3], [5, 2, 2], [1, 4, 2], [5, 3, 1], [5, 4, 2]]
+K = 3
+# result : 4

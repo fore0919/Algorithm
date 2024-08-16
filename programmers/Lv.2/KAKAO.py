@@ -409,3 +409,56 @@ def solution(m, musicinfos):
 m = "ABCDEFG"
 musicinfos = ["12:00,12:14,HELLO,CDEFGAB", "13:00,13:05,WORLD,ABCDEF"]
 # answer : "HELLO"
+
+"""
+https://school.programmers.co.kr/learn/courses/30/lessons/17679
+"""
+
+
+def solution(m, n, board):
+    answer = 0
+    _set = set()
+    for i in range(m):
+        board[i] = list(board[i])
+
+    while True:
+        for i in range(m - 1):
+            for j in range(n - 1):
+                block = board[i][j]
+                if not block:
+                    continue
+                if (
+                    board[i][j + 1] == block
+                    and board[i + 1][j] == block
+                    and board[i + 1][j + 1] == block
+                ):
+                    _set.add((i, j))
+                    _set.add((i, j + 1))
+                    _set.add((i + 1, j))
+                    _set.add((i + 1, j + 1))
+        if _set:
+            answer += len(_set)
+            for x, y in _set:
+                board[x][y] = []
+            _set.clear()
+        else:
+            break
+
+        while True:
+            drop = False
+            for i in range(m - 1):
+                for j in range(n):
+                    if board[i][j] and board[i + 1][j] == []:
+                        board[i + 1][j] = board[i][j]
+                        board[i][j] = []
+                        drop = True
+            if not drop:
+                break
+
+    return answer
+
+
+m = 4
+n = 5
+board = ["CCBDE", "AAADE", "AAABF", "CCBBF"]
+# answer : 14

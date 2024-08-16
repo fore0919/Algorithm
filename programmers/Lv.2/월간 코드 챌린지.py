@@ -60,3 +60,52 @@ def solution(n, left, right):
 n = 3
 left = 2
 right = 5  # result: [3,2,2,3]
+
+"""
+https://school.programmers.co.kr/learn/courses/30/lessons/77885
+"""
+
+
+def solution(numbers):
+    answer = []
+    for number in numbers:
+        binary = list("0" + bin(number)[2:])
+        idx = "".join(binary).rfind("0")
+        binary[idx] = "1"
+        if number % 2 == 1:
+            binary[idx + 1] = "0"
+        answer.append(int("".join(binary), 2))
+    return answer
+
+
+numbers = [2, 7]
+# result : [3,11]
+
+"""
+https://school.programmers.co.kr/learn/courses/30/lessons/68936
+"""
+
+
+def solution(arr):
+    answer = [0, 0]
+    length = len(arr)
+
+    def recursion(x, y, length):
+        current = arr[x][y]
+        for i in range(x, x + length):
+            for j in range(y, y + length):
+                if arr[i][j] != current:
+                    length //= 2
+                    recursion(x, y, length)
+                    recursion(x + length, y, length)
+                    recursion(x, y + length, length)
+                    recursion(x + length, y + length, length)
+                    return
+        answer[current] += 1
+
+    recursion(0, 0, length)
+    return answer
+
+
+arr = [[1, 1, 0, 0], [1, 0, 0, 0], [1, 0, 0, 1], [1, 1, 1, 1]]
+# result: [4,9]
