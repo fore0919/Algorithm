@@ -542,3 +542,20 @@ def solution(weights):
 
 weights = [100, 180, 360, 100, 270]
 # result: 4
+
+"""
+https://school.programmers.co.kr/learn/courses/30/lessons/148653
+"""
+
+
+def solution(storey):
+    answer = 0
+    while storey:
+        x = storey % 10
+        if (x == 5 and storey // 10 % 10 >= 5) or x > 5:
+            storey += 10 - x
+            answer += 10 - x
+        else:
+            answer += x
+        storey = storey // 10
+    return answer

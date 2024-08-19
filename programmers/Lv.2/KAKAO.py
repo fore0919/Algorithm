@@ -462,3 +462,81 @@ m = 4
 n = 5
 board = ["CCBDE", "AAADE", "AAABF", "CCBBF"]
 # answer : 14
+
+"""
+https://school.programmers.co.kr/learn/courses/30/lessons/60058
+"""
+
+
+def solution(p):
+    if not p:
+        return ""
+
+    def check(u):
+        stack = []
+        for i in u:
+            if i == "(":
+                stack.append(i)
+            else:
+                if len(stack) == 0:
+                    return False
+                stack.pop()
+        return True
+
+    def divide(arr):
+        left, right = 0, 0
+        for i in range(len(arr)):
+            if arr[i] == "(":
+                left += 1
+            else:
+                right += 1
+            if left == right:
+                return arr[: i + 1], arr[i + 1 :]
+
+    u, v = divide(p)
+
+    if check(u):
+        return u + solution(v)
+    else:
+        answer = "("
+        answer += solution(v)
+        answer += ")"
+
+        for s in u[1 : len(u) - 1]:
+            if s == "(":
+                answer += ")"
+            else:
+                answer += "("
+        return answer
+
+
+p = "(()())()"
+# result : "(()())()"
+
+
+def solution(s):
+    answer = []
+    if len(s) == 1:
+        return len(s)
+
+    for i in range(1, len(s) + 1):
+        string = ""
+        cnt = 1
+        temp = s[:i]
+        for j in range(i, len(s) + i, i):
+            if temp == s[j : i + j]:
+                cnt += 1
+            else:
+                if cnt != 1:
+                    string = string + str(cnt) + temp
+                else:
+                    string = string + temp
+                temp = s[j : j + i]
+                cnt = 1
+
+        answer.append(len(string))
+    return min(answer)
+
+
+s = "aabbaccc"
+# result: 7
