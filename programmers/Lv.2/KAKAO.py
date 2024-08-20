@@ -540,3 +540,67 @@ def solution(s):
 
 s = "aabbaccc"
 # result: 7
+
+"""
+https://school.programmers.co.kr/learn/courses/30/lessons/81302#fnref1
+"""
+
+
+def solution(places):
+    answer = []
+    for p in range(len(places)):
+        temp = []
+        for i in range(len(places[p])):
+            for j in range(len(places[p][i])):
+                if places[p][i][j] == "P":
+                    temp.append((i, j))
+
+        check = 1
+        while temp:
+            r1, c1 = temp.pop(0)
+            string = ""
+            for r2, c2 in temp:
+                if abs(r1 - r2) + abs(c1 - c2) <= 2:
+                    if r1 == r2:
+                        string += places[p][r2][c2 - 1]
+                    elif c1 == c2:
+                        string += places[p][r2 - 1][c2]
+                    else:
+                        string += places[p][r2 + (r1 - r2)][c2]
+                        string += places[p][r2][c2 + (c1 - c2)]
+            if "O" in string or "P" in string:
+                check = 0
+                break
+        answer.append(check)
+    return answer
+
+
+from itertools import permutations
+from re import split
+
+"""
+https://school.programmers.co.kr/learn/courses/30/lessons/67257
+"""
+
+
+def solution(expression):
+    answer = []
+    temp = [i for i in expression if i in ["+", "-", "*"]]
+    orders = list(permutations(set(temp), len(set(temp))))
+    for order in orders:
+        operators = temp.copy()
+        numbers = list(map(int, split("[\*\+\-]", expression)))
+        for o in order:
+            while o in operators:
+                i = operators.index(o)
+                if o == "*":
+                    val = numbers[i] * numbers[i + 1]
+                elif o == "+":
+                    val = numbers[i] + numbers[i + 1]
+                else:
+                    val = numbers[i] - numbers[i + 1]
+                numbers[i] = val
+                numbers.pop(i + 1)
+                operators.pop(i)
+        answer.append(abs(numbers[0]))
+    return max(answer)
