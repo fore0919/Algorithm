@@ -106,3 +106,21 @@ N = 5
 road = [[1, 2, 1], [2, 3, 3], [5, 2, 2], [1, 4, 2], [5, 3, 1], [5, 4, 2]]
 K = 3
 # result : 4
+"""
+https://school.programmers.co.kr/learn/courses/30/lessons/49994#
+"""
+
+
+def solution(dirs):
+    answer = []
+    x, y = 0, 0
+    dic = {"U": [0, 1], "D": [0, -1], "R": [1, 0], "L": [-1, 0]}
+    for d in dirs:
+        start = (x, y)
+        if abs(x + dic[d][0]) <= 5 and abs(y + dic[d][1]) <= 5:
+            x += dic[d][0]
+            y += dic[d][1]
+            if answer and ((x, y), start) in answer:
+                continue
+            answer.append((start, (x, y)))
+    return len(set(answer))
