@@ -604,3 +604,45 @@ def solution(expression):
                 operators.pop(i)
         answer.append(abs(numbers[0]))
     return max(answer)
+
+
+"""
+https://school.programmers.co.kr/learn/courses/30/lessons/72412
+"""
+
+from bisect import bisect_left
+from collections import defaultdict
+from itertools import combinations
+
+
+def solution(info, query):
+    answer = []
+    dic = defaultdict(list)
+
+    for infos in info:
+        infos = infos.split()
+        condition = infos[:-1]
+        score = int(infos[-1])
+
+        for i in range(5):
+            case = list(combinations([0, 1, 2, 3], i))
+            for c in case:
+                temp = condition.copy()
+                for idx in c:
+                    temp[idx] = "-"
+                k = "".join(temp)
+                dic[k].append(score)
+
+    for v in dic.values():
+        v.sort()
+    for q in query:
+        q = q.replace("and", "").split()
+        key = "".join(q[:-1])
+        value = int(q[-1])
+        cnt = 0
+        if key in dic:
+            arr = dic[key]
+            idx = bisect_left(arr, value)
+            cnt = len(arr) - idx
+        answer.append(cnt)
+    return answer
