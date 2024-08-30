@@ -37,3 +37,23 @@ def solution(n, works):
     for work in works:
         answer += work * work
     return answer
+
+
+"""
+https://school.programmers.co.kr/learn/courses/30/lessons/12938#
+"""
+import math
+
+
+def solution(n, s):
+    answer = []
+    cnt = s % n
+    if s < n:
+        return [-1]
+    while len(answer) != n:
+        if cnt > 0:
+            cnt -= 1
+            answer.append(math.ceil(s / n))
+        else:
+            answer.append(s // n)
+    return sorted(answer)
