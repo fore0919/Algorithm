@@ -44,3 +44,24 @@ def solution(sticker):
 
     answer = max(value_1, value_2)
     return answer
+
+
+"""
+https://school.programmers.co.kr/learn/courses/30/lessons/12979#
+"""
+
+
+def solution(n, stations, w):
+    answer = 0
+    r = w * 2 + 1
+    start = 1
+    end = 0
+    for station in stations:
+        end = station - w - start
+        if not (station - w) <= start:
+            answer += (end) // r if (end) % r == 0 else (end) // r + 1
+        start = station + w + 1
+    if start <= n:
+        end = (n + 1) - start
+        answer += (end) // r if (end) % r == 0 else (end) // r + 1
+    return answer
