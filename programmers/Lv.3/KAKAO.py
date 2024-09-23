@@ -58,3 +58,39 @@ def solution(gems):
         if temp[gem] == 0:
             del temp[gem]
     return result
+
+
+"""
+https://school.programmers.co.kr/learn/courses/30/lessons/64062
+"""
+
+
+# 효율성 통과 X
+def solution(stones, k):
+    windows = max(stones[:k])
+    for i in range(k, len(stones) - k + 1):
+        num = max(stones[i : k + i])
+        windows = min(windows, num)
+    return windows
+
+
+# 효율성 통과 O
+from collections import deque
+
+
+def solution(stones, k):
+    stones = list(zip(range(1, len(stones) + 1), stones))
+    q = deque()
+    answer = float("inf")
+    for idx, val in stones:
+        while q:
+            if q[0][0] <= (idx - k):
+                q.popleft()
+            elif q[-1][1] < val:
+                q.pop()
+            else:
+                break
+        q.append((idx, val))
+        if idx >= k:
+            answer = min(q[0][1], answer)
+    return answer
