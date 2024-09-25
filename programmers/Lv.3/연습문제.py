@@ -85,3 +85,86 @@ def solution(n, edge):
                 distance[i] = distance[current] + 1
 
     return distance.count(max(distance))
+
+
+"""
+https://school.programmers.co.kr/learn/courses/30/lessons/43164
+"""
+
+from collections import deque
+
+
+### BFS
+def solution(tickets):
+    answer = []
+    tickets.sort(key=lambda x: (x[0], x[1]))
+    q = deque([(["ICN"], tickets)])
+    while q:
+        path, ticket = q.popleft()
+        if not len(ticket):
+            answer = path
+            break
+        idx = -1
+        for i in range(len(ticket)):
+            if ticket[i][0] == path[-1]:
+                idx = i
+                break
+        if idx != -1:
+            while idx < len(ticket) and ticket[idx][0] == path[-1]:
+                q.append(
+                    (path + [ticket[idx][1]], ticket[:idx] + ticket[idx + 1 :])
+                )
+                idx += 1
+    return answer
+
+
+from collections import defaultdict
+
+
+### DFS - stack
+def solution(tickets):
+    answer = []
+    stack = defaultdict(list)
+    path = ["ICN"]
+    for k, v in tickets:
+        stack[k].append(v)
+    for key in stack.keys():
+        stack[key].sort(reverse=True)
+
+    while path:
+        current = path[-1]
+        if current not in stack or len(stack[current]) == 0:
+            answer.append(path.pop())
+        else:
+            path.append(stack[current].pop())
+    return answer[::-1]
+
+
+### DFS - recursion
+def solution(tickets):
+    answer = []
+    tickets.sort(key=lambda x: (x[0], x[1]))
+
+    def recursion(ticket, path):
+        if len(ticket) == 0:
+            return path
+        current = path[-1]
+        idx = -1
+
+        for i in range(len(ticket)):
+            if ticket[i][0] == current:
+                idx = i
+                break
+        if idx == -1:
+            return []
+
+        while ticket[idx][0] == current:
+            answer = recursion(
+                ticket[:idx] + ticket[idx + 1 :], path + [ticket[idx][1]]
+            )
+            if answer != []:
+                return answer
+            idx += 1
+        return answer
+
+    return recursion(tickets, ["ICN"])
