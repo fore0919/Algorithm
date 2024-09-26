@@ -168,3 +168,42 @@ def solution(tickets):
         return answer
 
     return recursion(tickets, ["ICN"])
+
+
+"""
+https://school.programmers.co.kr/learn/courses/30/lessons/161988
+"""
+
+
+def solution(sequence):
+    answer = [[0 for _ in range(len(sequence) + 1)] for _ in range(2)]
+    temp = 1
+    for i in range(len(sequence)):
+        answer[0][i + 1] = answer[0][i] - sequence[i] * temp
+        answer[1][i + 1] = answer[1][i] + sequence[i] * temp
+        temp *= -1
+    return max(max(answer[0]) - min(answer[0]), max(answer[1]) - min(answer[1]))
+
+
+"""
+https://school.programmers.co.kr/learn/courses/30/lessons/49191
+"""
+
+
+def solution(n, results):
+    answer = 0
+    win = [set() for _ in range(n + 1)]
+    lose = [set() for _ in range(n + 1)]
+    for x, y in results:
+        win[x].add(y)
+        lose[y].add(x)
+    for i in range(1, n + 1):
+        for j in win[i]:
+            lose[j].update(lose[i])
+        for j in lose[i]:
+            win[j].update(win[i])
+    for player in range(1, n + 1):
+        count = len(win[player]) + len(lose[player])
+        if count == n - 1:
+            answer += 1
+    return answer
