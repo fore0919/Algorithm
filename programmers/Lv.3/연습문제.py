@@ -207,3 +207,40 @@ def solution(n, results):
         if count == n - 1:
             answer += 1
     return answer
+
+
+"""
+https://school.programmers.co.kr/learn/courses/30/lessons/12904#
+"""
+
+from collections import deque
+
+
+def solution(s):
+    answer = 1
+    arr = list(zip(range(len(s)), s))
+    q = deque()
+    q.append(arr[0])
+    while q:
+        idx, string = q.popleft()
+        for i in range(idx + 1, len(s)):
+            if s[i] == string:
+                temp = s[idx : i + 1]
+                if temp == temp[::-1]:
+                    answer = max(answer, len(temp))
+        if len(s) == answer or len(s) == idx + 1:
+            break
+        q.append(arr[idx + 1])
+    return answer
+
+"""
+https://school.programmers.co.kr/learn/courses/30/lessons/12907
+"""
+
+def solution(n, money):
+    answer = [0] * (n+1)
+    answer[0] = 1
+    for m in money:
+        for i in range(m, n+1):
+            answer[i] += answer[i-m]
+    return answer[n] % 1000000007
