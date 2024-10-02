@@ -233,14 +233,36 @@ def solution(s):
         q.append(arr[idx + 1])
     return answer
 
+
 """
 https://school.programmers.co.kr/learn/courses/30/lessons/12907
 """
 
+
 def solution(n, money):
-    answer = [0] * (n+1)
+    answer = [0] * (n + 1)
     answer[0] = 1
     for m in money:
-        for i in range(m, n+1):
-            answer[i] += answer[i-m]
+        for i in range(m, n + 1):
+            answer[i] += answer[i - m]
     return answer[n] % 1000000007
+
+
+"""
+https://school.programmers.co.kr/learn/courses/30/lessons/152995#
+"""
+
+
+def solution(scores):
+    answer = 1
+    max_score_b = 0
+    my_score_a, my_score_b = scores[0]
+    scores.sort(key=lambda x: (-x[0], x[1]))
+    for a, b in scores:
+        if my_score_a < a and my_score_b < b:
+            return -1
+        if b >= max_score_b:
+            max_score_b = b
+            if (a + b) > (my_score_a + my_score_b):
+                answer += 1
+    return answer
