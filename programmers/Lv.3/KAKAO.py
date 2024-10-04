@@ -94,3 +94,36 @@ def solution(stones, k):
         if idx >= k:
             answer = min(q[0][1], answer)
     return answer
+
+
+"""
+https://school.programmers.co.kr/learn/courses/30/lessons/17678
+"""
+
+from collections import deque
+from datetime import datetime
+
+
+def solution(n, t, m, timetable):
+    answer = datetime.strptime("09:00", "%H:%M").time()
+    bus_times = []
+    start = (answer.hour * 60) + answer.minute
+    for i in range(1, n + 1):
+        bus_times.append(start)
+        start += t
+    print(bus_times)
+
+    q = deque(sorted(timetable))
+    for bus in bus_times:
+        cnt = 0
+        print(q)
+        while q:
+            times = datetime.strptime(q[0], "%H:%M").time()
+            times = (times.hour * 60) + times.minute
+            print(times)
+            if times <= bus:
+                q.popleft()
+                cnt += 1
+            else:
+                break
+    return answer.strftime("%H:%M")
