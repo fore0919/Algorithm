@@ -101,29 +101,34 @@ https://school.programmers.co.kr/learn/courses/30/lessons/17678
 """
 
 from collections import deque
-from datetime import datetime
+from datetime import datetime, timedelta
 
 
 def solution(n, t, m, timetable):
-    answer = datetime.strptime("09:00", "%H:%M").time()
-    bus_times = []
-    start = (answer.hour * 60) + answer.minute
-    for i in range(1, n + 1):
-        bus_times.append(start)
-        start += t
-    print(bus_times)
+    answer = []
+    start = datetime.strptime("09:00", "%H:%M")
+    timetable.sort()
+    q = deque(timetable)
 
-    q = deque(sorted(timetable))
-    for bus in bus_times:
-        cnt = 0
-        print(q)
+    for i in range(1, n + 1):
+        answer.append(start)
+        start += timedelta(minutes=t)
+
+    for j in range(1, len(answer) + 1):
+        cnt = m
+        if (len(q) - q.count("23:59")) < cnt:
+            return answer[-1].strftime("%H:%M")
+
+        if j == n and cnt < len(q):
+            time = datetime.strptime(q[cnt - 1], "%H:%M")
+            break
+
         while q:
-            times = datetime.strptime(q[0], "%H:%M").time()
-            times = (times.hour * 60) + times.minute
-            print(times)
-            if times <= bus:
+            time = datetime.strptime(q[0], "%H:%M")
+            if time <= answer[j - 1] and cnt > 0:
                 q.popleft()
-                cnt += 1
+                cnt -= 1
             else:
                 break
-    return answer.strftime("%H:%M")
+
+    return (time - timedelta(minutes=1)).strftime("%H:%M")
