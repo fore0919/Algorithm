@@ -30,3 +30,23 @@ def solution(mats, park):
     if mat:
         answer = max(mat)
     return answer
+
+
+"""
+https://school.programmers.co.kr/learn/courses/30/lessons/12926
+"""
+
+
+def solution(s, n):
+    answer = ""
+    for string in s:
+        if string.isalpha():
+            if string.upper() == string:
+                end = ord("Z")
+            else:
+                end = ord("z")
+            i = ord(string) + n
+            answer += chr(i if i <= end else i - 26)
+        else:
+            answer += string
+    return answer
