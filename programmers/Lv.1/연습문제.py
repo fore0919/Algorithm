@@ -50,3 +50,22 @@ def solution(s, n):
         else:
             answer += string
     return answer
+
+
+"""
+https://school.programmers.co.kr/learn/courses/30/lessons/178871
+"""
+
+
+def solution(players, callings):
+    hash_map = dict(zip(players, range(len(players))))
+    for name in callings:
+        current_idx = hash_map[name]
+        pass_idx = current_idx - 1
+        players[current_idx], players[pass_idx] = (
+            players[pass_idx],
+            players[current_idx],
+        )
+        hash_map[name] = pass_idx
+        hash_map[players[current_idx]] = current_idx
+    return players
