@@ -1,3 +1,4 @@
+from collections import Counter
 from typing import List
 
 
@@ -37,3 +38,25 @@ class Solution:
                 nums[cnt] = nums[i]
                 cnt += 1
         return cnt
+
+    """
+    169. Majority Element
+    """
+
+    def majorityElement(self, nums: List[int]) -> int:
+        counter = Counter(nums)
+        return counter.most_common(1)[0][0]
+        # return sorted(nums, key=lambda x : - nums.count(x))[0]
+
+    """
+    121. Best Time to Buy and Sell Stock
+    """
+
+    def maxProfit(self, prices: List[int]) -> int:
+        buy = prices[0]
+        sell = 0
+        for i in range(1, len(prices)):
+            if buy > prices[i]:
+                buy = prices[i]
+            sell = max(sell, prices[i] - buy)
+        return sell
