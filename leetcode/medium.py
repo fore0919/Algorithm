@@ -84,6 +84,37 @@ class Solution:
         citations.sort(reverse=True)
         return max(map(min, enumerate(citations, start=1)))
 
+    """
+    238. Product of Array Except Self
+    """
+
+    def productExceptSelf(self, nums: List[int]) -> List[int]:
+        arr = [1] * len(nums)
+        left, right = 1, 1
+        for i in range(len(nums)):
+            arr[i] *= left
+            left *= nums[i]
+        for j in range(len(nums) - 1, -1, -1):
+            arr[j] *= right
+            right *= nums[j]
+        return arr
+
+    """
+    134. Gas Station
+    """
+
+    def canCompleteCircuit(self, gas: List[int], cost: List[int]) -> int:
+        if (sum(cost) - sum(gas)) > 0:
+            return -1
+        start = 0
+        current = 0
+        for i in range(len(gas)):
+            current += gas[i] - cost[i]
+            if current < 0:
+                current = 0
+                start = i + 1
+        return start
+
 
 import random
 
@@ -121,18 +152,3 @@ class RandomizedSet:
 
     def getRandom(self) -> int:
         return random.choice(self.arr)
-
-    """
-    238. Product of Array Except Self
-    """
-
-    def productExceptSelf(self, nums: List[int]) -> List[int]:
-        arr = [1] * len(nums)
-        left, right = 1, 1
-        for i in range(len(nums)):
-            arr[i] *= left
-            left *= nums[i]
-        for j in range(len(nums) - 1, -1, -1):
-            arr[j] *= right
-            right *= nums[j]
-        return arr
