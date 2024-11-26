@@ -60,3 +60,19 @@ class Solution:
                 buy = prices[i]
             sell = max(sell, prices[i] - buy)
         return sell
+
+    """
+    125. Valid Palindrome
+    """
+
+    def isPalindrome(self, s: str) -> bool:
+        string = ""
+        for x in s:
+            if x.isalpha():
+                string += x.lower()
+            elif x.isdigit():
+                string += x
+        n = len(string)
+        if string[: (n // 2) + (n % 2)] == "".join(reversed(string[n // 2 :])):
+            return True
+        return False

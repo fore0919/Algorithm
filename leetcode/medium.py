@@ -115,6 +115,21 @@ class Solution:
                 start = i + 1
         return start
 
+    """
+    209. Minimum Size Subarray Sum
+    """
+
+    def minSubArrayLen(self, target: int, nums: List[int]) -> int:
+        window_size = len(nums) + 1
+        current_sum, cnt = 0, 0
+        for idx, val in enumerate(nums):
+            current_sum += val
+            while current_sum >= target:
+                window_size = min(window_size, idx - cnt + 1)
+                current_sum -= nums[cnt]
+                cnt += 1
+        return 0 if window_size > len(nums) else window_size
+
 
 import random
 
