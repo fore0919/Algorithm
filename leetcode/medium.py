@@ -1,4 +1,4 @@
-from collections import Counter
+from collections import Counter, defaultdict
 from typing import List
 
 
@@ -167,3 +167,69 @@ class RandomizedSet:
 
     def getRandom(self) -> int:
         return random.choice(self.arr)
+
+
+class Solution2:
+    """
+    36. Valid Sudoku
+    Determine if a 9 x 9 Sudoku board is valid. Only the filled cells need to be validated according to the following rules:
+
+    Each row must contain the digits 1-9 without repetition.
+    Each column must contain the digits 1-9 without repetition.
+    Each of the nine 3 x 3 sub-boxes of the grid must contain the digits 1-9 without repetition.
+    """
+
+    def isValidSudoku_set(self, board: List[List[str]]) -> bool:
+        rows = defaultdict(set)
+        columns = defaultdict(set)
+        boxes = defaultdict(set)
+        for i in range(9):
+            for j in range(9):
+                if board[i][j] == ".":
+                    continue
+                box_idx = (i // 3, j // 3)
+                if (
+                    board[i][j] in rows[i]
+                    or board[i][j] in columns[j]
+                    or board[i][j] in boxes[box_idx]
+                ):
+                    return False
+                rows[i].add(board[i][j])
+                columns[j].add(board[i][j])
+                boxes[box_idx].add(board[i][j])
+        return True
+
+    def isValidSudoku_bitmask(self, board: List[List[str]]) -> bool:
+        rows = [0] * 9
+        columns = [0] * 9
+        boxes = [0] * 9
+        for i in range(9):
+            for j in range(9):
+                if board[i][j] == ".":
+                    continue
+                x = ord(board[i][j]) - ord("1")
+                mask = 1 << x
+                box_idx = (i // 3) * 3 + (j // 3)
+                if (
+                    (rows[i] & mask)  # 비교하는 비트가 둘다 참이면 만족
+                    or (columns[j] & mask)
+                    or (boxes[box_idx] & mask)
+                ):
+                    return False
+                rows[i] |= mask  # 비교하는 비트가 둘중에 하나라도 참이면 만족
+                columns[j] |= mask
+                boxes[box_idx] |= mask
+        return True
+
+    def isValidSudoku_eazy(self, board: List[List[str]]) -> bool:
+        res = []
+        for i in range(9):
+            for j in range(9):
+                element = board[i][j]
+                if element != ".":
+                    res += [
+                        (i, element),
+                        (element, j),
+                        (i // 3, j // 3, element),
+                    ]
+        return len(res) == len(set(res))
