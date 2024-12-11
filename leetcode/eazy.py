@@ -1,4 +1,4 @@
-from collections import Counter
+from collections import Counter, deque
 from typing import List, Optional
 
 
@@ -159,4 +159,24 @@ class Solution4:
     def maxDepth(self, root: Optional[TreeNode]) -> int:
         if not root:
             return 0
-        return 1 + max(self.maxDepth(root.left), self.mexDepth(root.right))
+        return 1 + max(self.maxDepth(root.left), self.maxDepth(root.right))
+
+    """
+    530. Minimum Absolute Difference in BST
+        """
+
+    def getMinimumDifference(self, root: Optional[TreeNode]) -> int:
+        answer = float("inf")
+        q = deque([root])
+        arr = []
+        while q:
+            current = q.popleft()
+            arr.append(current.val)
+            if current.left:
+                q.append(current.left)
+            if current.right:
+                q.append(current.right)
+        arr.sort()
+        for i in range(1, len(arr)):
+            answer = min(answer, arr[i] - arr[i - 1])
+        return answer

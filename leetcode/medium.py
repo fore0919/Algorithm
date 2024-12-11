@@ -1,5 +1,5 @@
-from collections import Counter, defaultdict
-from typing import List
+from collections import Counter, defaultdict, deque
+from typing import List, Optional
 
 
 class Solution:
@@ -233,3 +233,33 @@ class Solution2:
                         (i // 3, j // 3, element),
                     ]
         return len(res) == len(set(res))
+
+    """
+    199. Binary Tree Right Side View
+    """
+
+
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+
+class Solution3:
+    def rightSideView(self, root: Optional[TreeNode]) -> List[int]:
+        answer = []
+        if not root:
+            return answer
+        q = deque([root])
+        while q:
+            n = len(q)
+            for i in range(n):
+                current = q.popleft()
+                if i == n - 1:
+                    answer.append(current.val)
+                if current.left:
+                    q.append(current.left)
+                if current.right:
+                    q.append(current.right)
+        return answer
