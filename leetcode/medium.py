@@ -263,3 +263,37 @@ class Solution3:
                 if current.right:
                     q.append(current.right)
         return answer
+
+    """
+    200. Number of Islands
+    """
+
+    def numIslands(self, grid: List[List[str]]) -> int:
+        answer = 0
+        visit = set()
+        row, col = len(grid), len(grid[0])
+
+        def bfs(n, m):
+            q = deque()
+            visit.add((n, m))
+            q.append((n, m))
+            while q:
+                x, y = q.popleft()
+                graph = [[1, 0], [-1, 0], [0, 1], [0, -1]]
+                for dx, dy in graph:
+                    i, j = x + dx, y + dy
+                    if (
+                        0 <= i < row
+                        and 0 <= j < col
+                        and grid[i][j] == "1"
+                        and (i, j) not in visit
+                    ):
+                        q.append((i, j))
+                        visit.add((i, j))
+
+        for i in range(row):
+            for j in range(col):
+                if grid[i][j] == "1" and (i, j) not in visit:
+                    answer += 1
+                    bfs(i, j)
+        return answer
