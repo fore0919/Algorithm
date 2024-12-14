@@ -180,3 +180,18 @@ class Solution4:
         for i in range(1, len(arr)):
             answer = min(answer, arr[i] - arr[i - 1])
         return answer
+
+    """
+    35. Search Insert Position
+    """
+
+    def searchInsert(self, nums: List[int], target: int) -> int:
+        answer = 0
+        for i in nums:
+            if target == i:
+                answer = nums.index(i)
+            elif target not in nums:
+                nums.append(target)
+                nums.sort()
+                answer = nums.index(target)
+        return answer
