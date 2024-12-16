@@ -1,3 +1,4 @@
+import math
 from collections import Counter, deque
 from typing import List, Optional
 
@@ -195,3 +196,93 @@ class Solution4:
                 nums.sort()
                 answer = nums.index(target)
         return answer
+
+    """
+    191. Number of 1 Bits
+    """
+
+    def hammingWeight(self, n: int) -> int:
+        return bin(n)[2:].count("1")
+
+    """
+    190. Reverse Bits    
+    """
+
+    def reverseBits(self, n: int) -> int:
+        answer = 0
+        for i in range(32):
+            b = n & 1
+            answer = (answer << 1) | b
+            n >>= 1
+        return answer
+
+    """
+    67. Add Binary
+    """
+
+    def addBinary(self, a: str, b: str) -> str:
+        return str(bin(int(a, 2) + int(b, 2))[2:])
+
+    """
+    108. Convert Sorted Array to Binary Search Tree
+    """
+
+    def sortedArrayToBST(self, nums: List[int]) -> Optional[TreeNode]:
+        if not nums:
+            return None
+        mid = len(nums) // 2
+        root = TreeNode(nums[mid])
+        root.left = self.sortedArrayToBST(nums[:mid])
+        root.right = self.sortedArrayToBST(nums[mid + 1 :])
+        return root
+
+    """
+    70. Climbing Stairs
+    """
+
+    def climbStairs(self, n: int) -> int:
+        dp = [0] * (n + 1)
+        dp[0] = 1
+        dp[1] = 1
+        for i in range(2, n + 1):
+            dp[i] = dp[i - 1] + dp[i - 2]
+        return dp[-1]
+
+    """
+    69. Sqrt(x)
+    """
+
+    def mySqrt(self, x: int) -> int:
+        if x == 0:
+            return 0
+        left, right = 1, x
+        while left <= right:
+            mid = (left + right) // 2
+            if mid * mid == x:
+                return mid
+            elif mid * mid < x:
+                left = mid + 1
+            else:
+                right = mid - 1
+        return right
+
+    def mySqrt_eazy(self, x: int) -> int:
+        return int(math.sqrt(x))
+
+    """
+    66. Plus One
+    """
+
+    def plusOne(self, digits: List[int]) -> List[int]:
+        arr = list(map(lambda x: str(x), digits))
+        num = int("".join(arr)) + 1
+        return list(map(lambda x: int(x), list(str(num))))
+
+    """
+    9. Palindrome Number
+    """
+
+    def isPalindrome(self, x: int) -> bool:
+        arr = list(str(x))
+        reverse = arr[::-1]
+        return True if arr == reverse else False
