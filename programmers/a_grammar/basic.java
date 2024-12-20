@@ -1,0 +1,113 @@
+import java.util.Map;
+import java.util.Set;
+import java.util.function.BiFunction;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
+import java.util.Arrays;
+
+class Solution {
+
+    // https://school.programmers.co.kr/learn/courses/30/lessons/181934
+
+    public int solution(String ineq, String eq, int n, int m) {
+        Map<String, BiFunction<Integer, Integer, Boolean>> functions = Map.of(
+                ">=", (a, b) -> a >= b,
+                "<=", (a, b) -> a <= b,
+                ">!", (a, b) -> a > b,
+                "<!", (a, b) -> a < b);
+        return functions.get(ineq + eq).apply(n, m) ? 1 : 0;
+    }
+
+    // https://school.programmers.co.kr/learn/courses/30/lessons/181935
+
+    public int solution(int n) {
+        if (n % 2 == 0) {
+            return IntStream.rangeClosed(1, n).filter(i -> i % 2 == 0).map(i -> (int) Math.pow(i, 2)).sum();
+        } else {
+            return IntStream.rangeClosed(1, n).filter(i -> i % 2 == 1).sum();
+        }
+    }
+
+    // https://school.programmers.co.kr/learn/courses/30/lessons/181932
+
+    public String solution(String code) {
+        String answer = "";
+        int mode = 0;
+        for (int i = 0; i < code.length(); i++) {
+            if (code.charAt(i) == '1')
+                mode = 1 - mode;
+            else if (i % 2 == mode)
+                answer += code.charAt(i);
+        }
+        return "".equals(answer) ? "EMPTY" : answer;
+    }
+
+    // https://school.programmers.co.kr/learn/courses/30/lessons/181931
+
+    public int solution(int a, int d, boolean[] included) {
+        int answer = 0;
+        for (int i = 0; i < included.length; i++) {
+            if (included[i])
+                answer += a + (d * i);
+        }
+        return answer;
+    }
+
+    public int solution_eazy(int a, int d, boolean[] included) {
+        return IntStream.range(0, included.length).map(idx -> included[idx] ? a + (idx * d) : 0).sum();
+    }
+
+    // https://school.programmers.co.kr/learn/courses/30/lessons/181930
+
+    public int solution(int a, int b, int c) {
+        Set<Integer> arr = Stream.of(a, b, c).collect(Collectors.toSet());
+        return (a + b + c) * (arr.size() < 3 ? a * a + b * b + c * c : 1)
+                * (arr.size() < 2 ? a * a * a + b * b * b + c * c * c : 1);
+    }
+
+    // https://school.programmers.co.kr/learn/courses/30/lessons/181929
+
+    public int solution(int[] num_list) {
+        int sum = 0;
+        int product = 1;
+        for (int i = 0; i < num_list.length; i++) {
+            sum += num_list[i];
+            product *= num_list[i];
+        }
+        return product < sum * sum ? 1 : 0;
+    }
+
+    // https://school.programmers.co.kr/learn/courses/30/lessons/181928
+
+    public int solution(int[] num_list) {
+        String a = "";
+        String b = "";
+        for (int i = 0; i < num_list.length; i++) {
+            if (num_list[i] % 2 == 0)
+                a += Integer.toString(num_list[i]);
+            else
+                b += Integer.toString(num_list[i]);
+        }
+        return Integer.valueOf(a) + Integer.valueOf(b);
+    }
+
+    public int solution(int[] numList) {
+        return Integer
+                .parseInt(Arrays.stream(numList).filter(value -> value % 2 != 0).mapToObj(String::valueOf)
+                        .collect(Collectors.joining()))
+                + Integer.parseInt(Arrays.stream(numList).filter(value -> value % 2 == 0).mapToObj(String::valueOf)
+                        .collect(Collectors.joining()));
+    }
+
+    // https://school.programmers.co.kr/learn/courses/30/lessons/181927
+
+    public int[] solution(int[] num_list) {
+        int len = num_list.length;
+        int[] answer = Arrays.copyOf(num_list, len + 1);
+        int a = num_list[len - 1];
+        int b = num_list[len - 2];
+        answer[answer.length - 1] = a > b ? a - b : a * 2;
+        return answer;
+    }
+}
