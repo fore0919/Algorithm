@@ -110,4 +110,125 @@ class Solution {
         answer[answer.length - 1] = a > b ? a - b : a * 2;
         return answer;
     }
+
+    // https://school.programmers.co.kr/learn/courses/30/lessons/181926
+
+    public int solution(int n, String control) {
+        int answer = 0;
+        for (int i = 0; i < control.length(); i++) {
+            if (control.charAt(i) == 'w')
+                answer += 1;
+            else if (control.charAt(i) == 's')
+                answer -= 1;
+            else if (control.charAt(i) == 'd')
+                answer += 10;
+            else
+                answer -= 10;
+        }
+        return answer + n;
+    }
+
+    // with switch
+
+    public int solution(int n, String control) {
+        int answer = n;
+        for (char ch : control.toCharArray()) {
+            switch (ch) {
+                case 'w':
+                    answer += 1;
+                    break;
+                case 's':
+                    answer -= 1;
+                    break;
+                case 'd':
+                    answer += 10;
+                    break;
+                case 'a':
+                    answer -= 10;
+                    break;
+                default:
+                    break;
+            }
+        }
+        return answer;
+    }
+
+    // https://school.programmers.co.kr/learn/courses/30/lessons/181925
+
+    public String solution(int[] numLog) {
+        String answer = "";
+        for (int i = 1; i < numLog.length; i++) {
+            int num = numLog[i] - numLog[i - 1];
+            switch (num) {
+                case 1:
+                    answer += "w";
+                    break;
+                case -1:
+                    answer += "s";
+                    break;
+                case 10:
+                    answer += "d";
+                    break;
+                case -10:
+                    answer += "a";
+                    break;
+                default:
+                    break;
+            }
+        }
+        return answer;
+    }
+
+    // https://school.programmers.co.kr/learn/courses/30/lessons/181924
+
+    public int[] solution(int[] arr, int[][] queries) {
+        int[] answer = Arrays.copyOf(arr, arr.length);
+        for (int[] query : queries) {
+            int i = query[0];
+            int j = query[1];
+            int x = answer[i];
+            answer[i] = answer[j];
+            answer[j] = x;
+        }
+        return answer;
+    }
+
+    // https://school.programmers.co.kr/learn/courses/30/lessons/181923
+
+    public int[] solution(int[] arr, int[][] queries) {
+        int[] answer = new int[queries.length];
+        Arrays.fill(answer, -1);
+        for (int i = 0; i < queries.length; i++) {
+            int s = queries[i][0], e = queries[i][1], k = queries[i][2];
+            for (int j = s; j <= e; j++) {
+                if (k < arr[j]) {
+                    answer[i] = answer[i] == -1 ? arr[j] : Math.min(answer[i], arr[j]);
+                }
+            }
+        }
+        return answer;
+    }
+
+    public int[] solution(int[] arr, int[][] queries) {
+        int[] answer = {};
+        return IntStream.range(0, queries.length)
+                .map(q -> IntStream.rangeClosed(queries[q][0], queries[q][1])
+                        .map(i -> arr[i])
+                        .filter(i -> i > queries[q][2])
+                        .min().orElse(-1))
+                .toArray();
+    }
+
+    public int[] solution(int[] arr, int[][] queries) {
+        for (int i = 0; i < queries.length; i++) {
+            int s = queries[i][0], e = queries[i][1], k = queries[i][2];
+            for (int j = s; j <= e; j++) {
+                if (j % k == 0) {
+                    arr[j]++;
+                }
+            }
+        }
+        return arr;
+    }
+
 }

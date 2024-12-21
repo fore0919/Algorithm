@@ -286,3 +286,64 @@ class Solution4:
         arr = list(str(x))
         reverse = arr[::-1]
         return True if arr == reverse else False
+
+    """
+    392. Is Subsequence
+    """
+
+    def isSubsequence(self, s: str, t: str) -> bool:
+        i, j = 0, 0
+        while i < len(s) and j < len(t):
+            if s[i] == t[j]:
+                i += 1
+            j += 1
+        return i == len(s)
+
+    """
+    205. Isomorphic Strings
+    """
+
+    def isIsomorphic(self, s: str, t: str) -> bool:
+        dict_s = {}
+        dict_t = {}
+        for i in range(len(s)):
+            if s[i] not in dict_s:
+                dict_s[s[i]] = i
+            if t[i] not in dict_t:
+                dict_t[t[i]] = i
+            if dict_s[s[i]] != dict_t[t[i]]:
+                return False
+        return True
+
+    """
+    290. Word Pattern
+    """
+
+    def wordPattern(self, pattern: str, s: str) -> bool:
+        dict_a = {}
+        dict_b = {}
+        s = s.split(" ")
+        if len(s) != len(pattern):
+            return False
+        for i in range(len(pattern)):
+            if pattern[i] not in dict_a:
+                dict_a[pattern[i]] = i
+            if s[i] not in dict_b:
+                dict_b[s[i]] = i
+            if dict_a[pattern[i]] != dict_b[s[i]]:
+                return False
+        return True
+
+    """
+    1. Two Sum
+    """
+
+    def twoSum(self, nums: List[int], target: int) -> List[int]:
+        answer = {}
+        n = len(nums)
+        for i in range(n):
+            x = target - nums[i]
+            if x in answer:
+                return [answer[x], i]
+            answer[nums[i]] = i
+        return []
