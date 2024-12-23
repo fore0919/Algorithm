@@ -91,8 +91,6 @@ def solution(n, edge):
 https://school.programmers.co.kr/learn/courses/30/lessons/43164
 """
 
-from collections import deque
-
 
 ### BFS
 def solution(tickets):
@@ -266,3 +264,61 @@ def solution(scores):
             if (a + b) > (my_score_a + my_score_b):
                 answer += 1
     return answer
+
+
+def solution(before, after):
+    answer = 0
+    for i in range(len(before)):
+        if before[i] != after[i]:
+            answer += 1
+            if before[i] in after[i:]:
+                answer += 1
+    return answer
+
+
+before = ["a", "b", "c", "d", "e"]
+after = ["e", "d", "c", "b", "a"]
+before = ["a", "c", "b"]
+after = ["b", "c", "z"]
+before = ["a", "b", "c"]
+after = ["b", "c", "a"]
+print(solution(before, after))
+
+
+def solution(category, tree, sub, arr):
+    answer = 0
+    return answer
+
+
+category = ["media", "movie", "music", "jazz", "tech", "health", "economy"]
+tree = [
+    ["media", "movie"],
+    ["media", "music"],
+    ["music", "jazz"],
+    ["tech", "health"],
+    ["economy"],
+]
+sub = ["Prodo music", "Echo media"]
+arr = ["music", "tech", "jazz", "media"]
+print(solution(category, tree, sub, arr))
+
+
+def solution(num, k):
+    n = len(num)
+    dp = [[float("inf")] * (k + 1) for _ in range(n + 1)]
+    dp[0][0] = 0
+
+    for i in range(1, n + 1):  # 문자열의 길이 i
+        for j in range(k + 1):  # 사용할 "+" 기호의 개수 j
+            for p in range(i):  # 분할점 p
+                if j > 0:  # "+"를 사용해야만 이전 값을 가져올 수 있음
+                    segment = int(num[p:i])  # 현재 구간 [p:i]
+                    dp[i][j] = min(dp[i][j], dp[p][j - 1] + segment)
+                elif j == 0 and p == 0:  # "+"를 사용하지 않는 경우
+                    dp[i][j] = int(num[:i])
+    return dp[n][k] % (10**9 + 7)
+
+
+print(solution("1234567", 2))  # 235
+print(solution("555555", 2))  # 165
+print(solution("91911919", 3))  # 166

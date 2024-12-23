@@ -5,6 +5,8 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
 class Solution {
 
@@ -229,6 +231,28 @@ class Solution {
             }
         }
         return arr;
+    }
+
+    // https://school.programmers.co.kr/learn/courses/30/lessons/181921?
+    public int[] solution(int l, int r) {
+        List<Integer> arr = new ArrayList<>();
+        for (int i = l; i <= r; i++) {
+            String str = "" + i;
+            int cnt = 0;
+            for (int j = 0; j < str.length(); j++) {
+                if (str.charAt(j) == '5' | str.charAt(j) == '0')
+                    cnt += 1;
+            }
+
+            if (cnt == str.length()) {
+                arr.add(i);
+            }
+        }
+        int[] answer = arr.stream().mapToInt(i -> i).toArray();
+        int[] empty = { -1 };
+        if (answer.length == 0)
+            return empty;
+        return answer;
     }
 
 }
