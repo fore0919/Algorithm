@@ -255,4 +255,31 @@ class Solution {
         return answer;
     }
 
+    // https://school.programmers.co.kr/learn/courses/30/lessons/181920
+
+    public int[] solution(int start_num, int end_num) {
+        return IntStream.rangeClosed(start_num, end_num).toArray();
+    }
+
+    // https://school.programmers.co.kr/learn/courses/30/lessons/181919
+    public int[] solution(int n) {
+        ArrayList<Integer> answer = new ArrayList<>();
+        answer.add(n);
+        while (n != 1) {
+            if (n % 2 == 0) {
+                n = n / 2;
+            } else {
+                n = 3 * n + 1;
+            }
+            answer.add(n);
+        }
+        return answer.stream().mapToInt(Integer::intValue).toArray();
+    }
+
+    public int[] solution(int n) {
+        return IntStream.concat(
+                IntStream.iterate(n, i -> i > 1, i -> i % 2 == 0 ? i / 2 : i * 3 + 1),
+                IntStream.of(1))
+                .toArray();
+    }
 }
