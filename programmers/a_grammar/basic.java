@@ -7,6 +7,7 @@ import java.util.stream.Stream;
 import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayDeque;
 
 class Solution {
 
@@ -281,5 +282,34 @@ class Solution {
                 IntStream.iterate(n, i -> i > 1, i -> i % 2 == 0 ? i / 2 : i * 3 + 1),
                 IntStream.of(1))
                 .toArray();
+    }
+
+    // https://school.programmers.co.kr/learn/courses/30/lessons/181918
+
+    public int[] solution(int[] arr) {
+        ArrayList<Integer> stk = new ArrayList<>();
+        int i = 0;
+        while (i < arr.length) {
+            if (stk.isEmpty() || (!stk.isEmpty() && stk.get(stk.size() - 1) < arr[i])) {
+                stk.add(arr[i]);
+                i++;
+            } else {
+                stk.remove(stk.size() - 1);
+            }
+        }
+        return stk.stream().mapToInt(Integer::intValue).toArray();
+    }
+
+    public int[] solution(int[] arr) {
+        ArrayDeque<Integer> stk = new ArrayDeque<>();
+        int i = 0;
+        while (i < arr.length) {
+            if (stk.isEmpty() || stk.peekLast() < arr[i]) {
+                stk.addLast(arr[i]);
+                i++;
+            } else
+                stk.pollLast();
+        }
+        return stk.stream().mapToInt(Integer::intValue).toArray();
     }
 }
