@@ -1,5 +1,6 @@
 import java.util.Map;
 import java.util.Set;
+import java.util.HashMap;
 import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -8,6 +9,7 @@ import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ArrayDeque;
+import java.util.Collections;
 
 class Solution {
 
@@ -311,5 +313,54 @@ class Solution {
                 stk.pollLast();
         }
         return stk.stream().mapToInt(Integer::intValue).toArray();
+    }
+
+    // https://school.programmers.co.kr/learn/courses/30/lessons/181916
+    public int solution(int a, int b, int c, int d) {
+        Map<Integer, Integer> dice = new HashMap<>();
+        int[] arr = { a, b, c, d };
+
+        for (int num : arr)
+            dice.put(num, dice.getOrDefault(num, 0) + 1);
+        List<Map.Entry<Integer, Integer>> entries = new ArrayList<>(dice.entrySet());
+        entries.sort((i, j) -> j.getValue() - i.getValue());
+        int p = entries.get(0).getKey();
+        int q = entries.size() > 1 ? entries.get(1).getKey() : 0;
+
+        if (dice.size() == 1) {
+            return entries.get(0).getKey() * 1111;
+        } else if (entries.size() == 2 && entries.stream().anyMatch(entry -> entry.getValue() == 3)) {
+            return (10 * p + q) * (10 * p + q);
+        } else if (entries.size() == 2 && entries.stream().anyMatch(entry -> entry.getValue() == 2)) {
+            return Math.abs((p + q) * (p - q));
+        } else if (entries.size() == 3 && entries.stream().anyMatch(entry -> entry.getValue() == 2)) {
+            int r = entries.get(2).getKey();
+            return q * r;
+        }
+        return Collections.min(dice.keySet());
+    }
+
+    // https://school.programmers.co.kr/learn/courses/30/lessons/181915
+    public String solution(String my_string, int[] index_list) {
+        String answer = "";
+        for (int i = 0; i < index_list.length; i++) {
+            answer += my_string.charAt(index_list[i]);
+        }
+        return answer;
+    }
+
+    // https://school.programmers.co.kr/learn/courses/30/lessons/181914
+    public int solution(String number) {
+        return Stream.of(number.split("")).mapToInt(Integer::parseInt).sum() % 9;
+    }
+
+    // https://school.programmers.co.kr/learn/courses/30/lessons/181913
+    public String solution(String my_string, int[][] queries) {
+        StringBuffer answer = new StringBuffer(my_string);
+        for (int[] query : queries) {
+            String reverse = new StringBuffer(answer.substring(query[0], query[1] + 1)).reverse().toString();
+            answer.replace(query[0], query[1] + 1, reverse);
+        }
+        return answer.toString();
     }
 }
