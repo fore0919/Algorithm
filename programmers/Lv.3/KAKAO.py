@@ -132,3 +132,35 @@ def solution(n, t, m, timetable):
                 break
 
     return (time - timedelta(minutes=1)).strftime("%H:%M")
+
+
+"""
+https://school.programmers.co.kr/learn/courses/30/lessons/67259?language=python3
+"""
+
+import heapq
+from sys import maxsize
+
+
+def solution(board):
+    n = len(board)
+    cost = [[[maxsize] * 4 for _ in range(n)] for _ in range(n)]
+    visited = [[[False] * 4 for _ in range(n)] for _ in range(n)]
+    directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+    heap = []
+    for i in range(4):
+        heapq.heappush(heap, (0, 0, 0, i))
+        cost[0][0][i] = 0
+    while heap:
+        current_cost, y, x, di = heapq.heappop(heap)
+        if visited[y][x][di]:
+            continue
+        visited[y][x][di] = True
+        for i, (dy, dx) in enumerate(directions):
+            ny, nx = dy + y, dx + x
+            if 0 <= ny < n and 0 <= nx < n and board[ny][nx] == 0:
+                new_cost = current_cost + (100 if i == di else 600)
+                if new_cost < cost[ny][nx][i]:
+                    cost[ny][nx][i] = new_cost
+                heapq.heappush(heap, (new_cost, ny, nx, i))
+    return min(cost[n - 1][n - 1])
