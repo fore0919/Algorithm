@@ -164,3 +164,47 @@ def solution(board):
                     cost[ny][nx][i] = new_cost
                 heapq.heappush(heap, (new_cost, ny, nx, i))
     return min(cost[n - 1][n - 1])
+
+
+"""
+https://school.programmers.co.kr/learn/courses/30/lessons/60059
+"""
+
+
+def solution(key, lock):
+    def check(x, y, key):
+        for i in range(m):
+            for j in range(m):
+                if 0 <= x + i < n and 0 <= y + j < n:
+                    if lock[x + i][y + j] + key[i][j] != 1:
+                        return False
+        for i in range(n):
+            for j in range(n):
+                if lock[i][j] == 0:
+                    if not (
+                        0 <= i - x < m
+                        and 0 <= j - y < m
+                        and key[i - x][j - y] == 1
+                    ):
+                        return False
+        return True
+
+    cnt = 4
+    m, n = len(key), len(lock)
+    while cnt > 0:
+        rotation = [[0 for _ in range(m)] for _ in range(m)]
+        for i in range(len(key)):
+            for j in range(len(key[i])):
+                rotation[j][-(1 + i)] = key[i][j]
+        cnt -= 1
+        key = rotation
+        for x in range(-m + 1, n):
+            for y in range(-m + 1, n):
+                if check(x, y, key):
+                    return True
+    return False
+
+
+key = [[0, 0, 0], [1, 0, 0], [0, 1, 1]]
+lock = [[1, 1, 1], [1, 1, 0], [1, 0, 1]]
+print(solution(key, lock))
