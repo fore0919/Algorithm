@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ArrayDeque;
 import java.util.Collections;
+import java.util.Comparator;
 
 class Solution {
 
@@ -360,6 +361,104 @@ class Solution {
         for (int[] query : queries) {
             String reverse = new StringBuffer(answer.substring(query[0], query[1] + 1)).reverse().toString();
             answer.replace(query[0], query[1] + 1, reverse);
+        }
+        return answer.toString();
+    }
+
+    // https://school.programmers.co.kr/learn/courses/30/lessons/181912?language=java
+    public int[] solution(String[] intStrs, int k, int s, int l) {
+        return IntStream.range(0, intStrs.length).map(i -> Integer.parseInt(intStrs[i].substring(s, s + l)))
+                .filter(i -> i > k).toArray();
+    }
+
+    public int[] solution(String[] intStrs, int k, int s, int l) {
+        List<Integer> answer = new ArrayList<>();
+        for (int i = 0; i < intStrs.length; i++) {
+            int num = Integer.parseInt(intStrs[i].substring(s, s + l));
+            if (num > k)
+                answer.add(num);
+        }
+        return answer.stream().mapToInt(i -> i).toArray();
+    }
+
+    // https://school.programmers.co.kr/learn/courses/30/lessons/181911
+    public String solution(String[] my_strings, int[][] parts) {
+        String answer = "";
+        for (int i = 0; i < parts.length; i++) {
+            answer += my_strings[i].substring(parts[i][0], parts[i][1] + 1);
+        }
+        return answer;
+    }
+
+    // https://school.programmers.co.kr/learn/courses/30/lessons/181909
+    public String[] solution(String my_string) {
+        List<String> answer = new ArrayList<>();
+        for (int i = 0; i < my_string.length(); i++) {
+            answer.add(my_string.substring(i, my_string.length()));
+        }
+        answer.sort(Comparator.naturalOrder());
+        return answer.toArray(new String[answer.size()]);
+    }
+
+    // https://school.programmers.co.kr/learn/courses/30/lessons/181908
+    public int solution(String my_string, String is_suffix) {
+        int i = my_string.length();
+        int j = is_suffix.length();
+        if (i < j)
+            return 0;
+        int answer = my_string.substring(i - j, i).equals(is_suffix) ? 1 : 0;
+        return answer;
+    }
+
+    // https://school.programmers.co.kr/learn/courses/30/lessons/181905
+    public String solution(String my_string, int s, int e) {
+        String reverse = new StringBuilder(my_string.substring(s, e + 1)).reverse().toString();
+        return my_string.substring(0, s) + reverse + my_string.substring(e + 1);
+    }
+
+    // https://school.programmers.co.kr/learn/courses/30/lessons/181904
+    public String solution(String my_string, int m, int c) {
+        String answer = "";
+        for (int i = (c - 1); i < my_string.length(); i += m)
+            answer += my_string.charAt(i);
+        return answer;
+    }
+
+    public String solution(int q, int r, String code) {
+        String answer = "";
+        for (int i = 0; i < code.length(); i++) {
+            if (i % q == r)
+                answer += code.charAt(i);
+        }
+        return answer;
+    }
+
+    // https://school.programmers.co.kr/learn/courses/30/lessons/181902
+    public int[] solution(String my_string) {
+        int[] answer = new int[52];
+        for (char ch : my_string.toCharArray()) {
+            if (Character.isUpperCase(ch))
+                answer[(int) ch - 'A'] += 1;
+            else if (Character.isLowerCase(ch))
+                answer[(int) ch - 'a' + 26] += 1;
+        }
+        return answer;
+    }
+
+    // https://school.programmers.co.kr/learn/courses/30/lessons/181901
+    public int[] solution(int n, int k) {
+        List<Integer> answer = new ArrayList<>();
+        for (int i = k; i <= n; i += k)
+            answer.add(i);
+        return answer.stream().mapToInt(Integer::intValue).toArray();
+    }
+
+    // https://school.programmers.co.kr/learn/courses/30/lessons/181900
+    public String solution(String my_string, int[] indices) {
+        StringBuilder answer = new StringBuilder(my_string);
+        Arrays.sort(indices);
+        for (int i = indices.length - 1; i >= 0; i--) {
+            answer.deleteCharAt(indices[i]);
         }
         return answer.toString();
     }
