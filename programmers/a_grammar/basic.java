@@ -462,4 +462,51 @@ class Solution {
         }
         return answer.toString();
     }
+
+    // https://school.programmers.co.kr/learn/courses/30/lessons/181897
+    public int[] solution(int n, int[] slicer, int[] num_list) {
+        List<Integer> answer = new ArrayList<>();
+        int a = n == 1 ? 0 : slicer[0];
+        int b = n == 2 ? num_list.length : slicer[1] + 1;
+        int c = n == 4 ? slicer[2] : 1;
+        for (int i = a; i < b; i += c) {
+            answer.add(num_list[i]);
+        }
+        return answer.stream().mapToInt(i -> i).toArray();
+    }
+
+    // https://school.programmers.co.kr/learn/courses/30/lessons/181896
+    public int solution(int[] num_list) {
+        return IntStream.range(0, num_list.length).filter(i -> num_list[i] < 0).findFirst().orElse(-1);
+    }
+
+    // https://school.programmers.co.kr/learn/courses/30/lessons/181895
+    public int[] solution(int[] arr, int[][] intervals) {
+        List<Integer> answer = new ArrayList<>();
+        for (int[] interval : intervals) {
+            int[] temp = Arrays.copyOfRange(arr, interval[0], interval[1] + 1);
+            for (int i : temp) {
+                answer.add(i);
+            }
+        }
+        return answer.stream().mapToInt(i -> i).toArray();
+    }
+
+    public int[] solution(int[] arr, int[][] intervals) {
+        return Arrays.stream(intervals)
+                .flatMapToInt(ints -> Arrays.stream(Arrays.copyOfRange(arr, ints[0], ints[1] + 1))).toArray();
+    }
+
+    // https://school.programmers.co.kr/learn/courses/30/lessons/181894
+    public int[] solution(int[] arr) {
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] == 2) {
+                for (int j = arr.length - 1; j >= i; j--) {
+                    if (arr[j] == 2)
+                        return Arrays.copyOfRange(arr, i, j + 1);
+                }
+            }
+        }
+        return new int[] { -1 };
+    }
 }
