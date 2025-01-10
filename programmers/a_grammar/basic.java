@@ -509,4 +509,16 @@ class Solution {
         }
         return new int[] { -1 };
     }
+
+    // https://school.programmers.co.kr/learn/courses/30/lessons/181893
+    public int[] solution(int[] arr, int[] query) {
+        int right = 0, left = 0;
+        for (int i = 0; i < query.length; i++) {
+            if (i % 2 == 0)
+                right = query[i] + left;
+            else
+                left = query[i] + left;
+        }
+        return Arrays.copyOfRange(arr, left, right + 1);
+    }
 }
