@@ -503,7 +503,8 @@ class Solution {
             if (arr[i] == 2) {
                 for (int j = arr.length - 1; j >= i; j--) {
                     if (arr[j] == 2)
-                        return Arrays.copyOfRange(arr, i, j + 1);
+                        return Arrays.copyOfRange(arr, i, j
+                                + 1);
                 }
             }
         }
@@ -520,5 +521,69 @@ class Solution {
                 left = query[i] + left;
         }
         return Arrays.copyOfRange(arr, left, right + 1);
+    }
+
+    // https://school.programmers.co.kr/learn/courses/30/lessons/181891
+    public int[] solution(int[] num_list, int n) {
+        int[] answer = new int[num_list.length];
+        int[] arr1 = Arrays.copyOfRange(num_list, n, num_list.length);
+        int[] arr2 = Arrays.copyOfRange(num_list, 0, n);
+        System.arraycopy(arr1, 0, answer, 0, arr1.length);
+        System.arraycopy(arr2, 0, answer, arr1.length, arr2.length);
+        return answer;
+    }
+
+    // https://school.programmers.co.kr/learn/courses/30/lessons/181890
+    public String[] solution(String[] str_list) {
+        for (int i = 0; i < str_list.length; i++) {
+            if (str_list[i].equals("l")) {
+                return Arrays.copyOfRange(str_list, 0, i);
+            } else if (str_list[i].equals("r")) {
+                return Arrays.copyOfRange(str_list, i + 1, str_list.length);
+            }
+        }
+        return new String[0];
+    }
+
+    // https://school.programmers.co.kr/learn/courses/30/lessons/181888
+
+    public int[] solution(int[] num_list, int n) {
+        return IntStream.iterate(0, i -> i + n).takeWhile(i -> i < num_list.length).map(i -> num_list[i]).toArray();
+    }
+
+    // https://school.programmers.co.kr/learn/courses/30/lessons/181887
+    public int solution(int[] num_list) {
+        int n = 0;
+        int m = 0;
+        for (int i = 0; i < num_list.length; i++) {
+            if (i % 2 == 0)
+                n += num_list[i];
+            else
+                m += num_list[i];
+        }
+        return Math.max(n, m);
+    }
+
+    // https://school.programmers.co.kr/learn/courses/30/lessons/181886
+    public String[] solution(String[] names) {
+        return Stream.iterate(0, i -> i + 5).takeWhile(i -> i < names.length).map(i -> names[i]).toArray(String[]::new);
+    }
+
+    // https://school.programmers.co.kr/learn/courses/30/lessons/181885
+    public String[] solution(String[] todo_list, boolean[] finished) {
+        return IntStream.range(0, todo_list.length).filter(i -> !finished[i]).mapToObj(i -> todo_list[i])
+                .toArray(String[]::new);
+    }
+
+    // https://school.programmers.co.kr/learn/courses/30/lessons/181883
+    public int[] solution(int[] arr, int[][] queries) {
+        int[] answer = Arrays.copyOf(arr, arr.length);
+        for (int i = 0; i < arr.length; i++) {
+            for (int[] query : queries) {
+                if (query[0] <= i && i <= query[1])
+                    answer[i] += 1;
+            }
+        }
+        return answer;
     }
 }
