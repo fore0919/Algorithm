@@ -45,3 +45,71 @@ r = complex(db, md)
 angle = round(math.degrees(cmath.phase(r).real))
 a = str(angle) + chr(176)
 print(a)
+
+
+def solution(diamond_n, diamond):
+    diamond = [[3], [4, 1], [7, 9, 2], [2, 7, 9, 6], [1, 9, 5], [7, 3], [9]]
+    diamond_n = 4
+    n = len(diamond)
+    mid = len(diamond) // 2
+
+    dp_up = [[0] * len(row) for row in diamond]
+    dp_down = [[0] * len(row) for row in diamond]
+
+    dp_up[0][0] = diamond[0][0]
+    for i in range(1, mid + 1):
+        for j in range(len(diamond[i])):
+            if j == 0:
+                dp_up[i][j] = dp_up[i - 1][j] + diamond[i][j]
+            elif j == len(diamond[i]) - 1:
+                dp_up[i][j] = dp_up[i - 1][j - 1] + diamond[i][j]
+            else:
+                dp_up[i][j] = (
+                    max(dp_up[i - 1][j - 1], dp_up[i - 1][j]) + diamond[i][j]
+                )
+
+    dp_down[-1][0] = diamond[-1][0]
+    for i in range(n - 2, mid - 1, -1):
+        for j in range(len(diamond[i])):
+            if j == 0:
+                dp_down[i][j] = dp_down[i + 1][j] + diamond[i][j]
+            elif j < len(diamond[i + 1]):
+                dp_down[i][j] = (
+                    max(dp_down[i + 1][j], dp_down[i + 1][j - 1])
+                    + diamond[i][j]
+                )
+            else:
+                dp_down[i][j] = dp_down[i + 1][j - 1] + diamond[i][j]
+
+    return max(dp_up[mid]) + max(dp_down[mid + 1])
+    max_sum = 0
+    for j in range(len(diamond[mid])):
+        if j < len(dp_up[mid]) and j < len(dp_down[mid]):
+            max_sum = max(
+                max_sum, dp_up[mid][j] + dp_down[mid][j] - diamond[mid][j]
+            )
+    return max_sum
+
+
+def solution2(diamond_n, diamond):
+    diamond = [[3], [4, 1], [7, 9, 2], [2, 7, 9, 6], [1, 9, 5], [7, 3], [9]]
+    diamond_n = 4
+    n = len(diamond)
+    dp = [[0] * len(row) for row in diamond]
+    dp[0][0] = diamond[0][0]
+
+    for i in range(1, n):
+        for j in range(len(diamond[i])):
+            _max = 0
+            if len(diamond[i]) > len(diamond[i - 1]):
+                if j - 1 >= 0:
+                    _max = max(_max, dp[i - 1][j - 1])
+                if j < len(dp[i - 1]):
+                    _max = max(_max, dp[i - 1][j])
+            else:
+                if j < len(dp[i - 1]):
+                    _max = max(_max, dp[i - 1][j])
+                if j + 1 < len(dp[i - 1]):
+                    _max = max(_max, dp[i - 1][j + 1])
+            dp[i][j] = _max + diamond[i][j]
+    return dp[-1]
