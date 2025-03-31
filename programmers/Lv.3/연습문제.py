@@ -322,3 +322,32 @@ def solution(num, k):
 print(solution("1234567", 2))  # 235
 print(solution("555555", 2))  # 165
 print(solution("91911919", 3))  # 166
+
+"""
+https://school.programmers.co.kr/learn/courses/30/lessons/389479?language=python3
+"""
+
+
+def solution(players, m, k):
+    answer = 0
+    server = [0] * len(players)
+    for i, n in enumerate(players):
+        if i - k >= 0 and server[i - k] >= 1:
+            server[i - k] = 0
+        if n // m >= 1 and (n // m) > sum(server):
+            server[i] = n // m - sum(server)
+            answer += server[i]
+    return answer
+
+
+def solution(players, m, k):
+    answer = 0
+    server = deque()
+    for i, n in enumerate(players):
+        while server and i - server[0] == k:
+            server.popleft()
+        cnt = n // m
+        for j in range(len(server), cnt):
+            server.append(i)
+            answer += 1
+    return answer
