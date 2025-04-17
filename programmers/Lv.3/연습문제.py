@@ -351,3 +351,30 @@ def solution(players, m, k):
             server.append(i)
             answer += 1
     return answer
+
+
+"""
+https://school.programmers.co.kr/learn/courses/30/lessons/77486
+"""
+
+
+def solution(enroll, referral, seller, amount):
+    recommender = {}
+    profit = {}
+    for i in range(len(enroll)):
+        recommender[enroll[i]] = referral[i]
+        profit[enroll[i]] = 0
+    for i in range(len(seller)):
+        seller_name = seller[i]
+        cost = amount[i] * 100
+        profit[seller_name] += cost
+        while recommender[seller_name] != "-":
+            if cost == 0:
+                break
+            cost = int(cost * 0.1)
+            profit[seller_name] -= cost
+            profit[recommender[seller_name]] += cost
+            seller_name = recommender[seller_name]
+        if recommender[seller_name] == "-":
+            profit[seller_name] -= int(cost * 0.1)
+    return [v for k, v in profit.items()]
